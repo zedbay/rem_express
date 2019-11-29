@@ -19,8 +19,8 @@ class App {
   }
 
   private startMongoDb() {
-    mongoose.connect('mongodb://admin:secret@mongodb:27017/stack', 
-      { 
+    mongoose.connect('mongodb://admin:secret@mongodb:27017/stack',
+      {
         useNewUrlParser: true,
         useUnifiedTopology: true
       },
