@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as config from '../config.json';
 import * as  mongoose from 'mongoose';
-import { UserRepository, UserModel } from './models/user';
+import { mountUserRoutes } from './routes/user-router';
 
 class App {
 
@@ -35,9 +35,7 @@ class App {
     router.get('/isAlive', (req, res) => {
       res.status(200).json({ isAlive: true });
     });
-    router.get('/user', (req, res) => {
-      UserModel.createUser('test', 'a').then((test) => console.log(test));
-    });
+    mountUserRoutes(router);
     this.express.use(router);
   }
 }

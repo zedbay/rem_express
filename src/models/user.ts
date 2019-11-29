@@ -31,6 +31,24 @@ export class UserModel {
         return this._userModel.email;
     }
 
+    public static findByEmail(email: string) : Promise<IUserModel> {
+        const p = new Promise<IUserModel>((resolve, reject) => {
+            const repo = new UserRepository();
+            repo.find({ email }).exec((err, res) => {
+                if (err) { reject(err); }
+                else {
+                    if (res.length) {
+                        resolve(res[0] as IUserModel);
+                    }
+                    else {
+                        resolve(null);
+                    }
+                }
+            })
+        });
+        return p;
+    }
+
     public static createUser(email: string, password: string): Promise<IUserModel> {
         const p = new Promise<IUserModel>((resolve, reject) => {
             const repo = new UserRepository();
