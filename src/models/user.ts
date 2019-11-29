@@ -48,18 +48,6 @@ export class UserModel {
         });
         return p;
     }
-
-    public static createUser(email: string, password: string): Promise<IUserModel> {
-        const p = new Promise<IUserModel>((resolve, reject) => {
-            const repo = new UserRepository();
-            const user = <IUserModel>{ email, password };
-            repo.create(user, (err, res) => {
-                if (err) { reject(); }
-                else { resolve(res); }
-            });
-        });
-        return p;
-    }
 }
 
 export class UserRepository extends Repository<IUserModel> {

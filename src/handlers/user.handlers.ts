@@ -1,4 +1,5 @@
 import { UserRepository, IUserModel, UserModel } from "../models/user";
+import { getIdentity } from "../security/login";
 
 export function listUser(req: any, res: any)  {
     const userRepository = new UserRepository();
@@ -7,24 +8,26 @@ export function listUser(req: any, res: any)  {
     });
 }
 
-export function login(req: any, res: any) {
-    const userRepository = new UserRepository();
-    userRepository
-        .find({ email: req.body.email, password: req.body.password })
-        .exec((err, result) => {
-            res.status(200).json({ result });
-        }
-    );
-}
-
 export async function createUser(req: any, res: any) {
-    const user: IUserModel = await UserModel.createUser(req.body.email, req.body.password);
-    res.status(201).json({ user });
+    const userRepository = new UserRepository();
+    userRepository.create(<IUserModel>req.body, (err, user) => {
+        if (err) {
+            res.status(500).send();
+        } else {
+            res.status(201).json({ user });
+        }
+    });
 }
 
 export function updateUser(req: any, res: any) {
     const userRepository = new UserRepository();
-    res.status(200);
+    userRepository.update(req.params.id, <IUserModel>req.body, (err, user) => {
+        if (err) {
+            res.status(500).send();
+        } else {
+            res.status(200).send();
+        }
+    });
 }
 
 export function deleteUser(req: any, res: any) {

@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  express:
+    image: node:latest
+    working_dir: /usr/src/app
+    ports:
+      - "8080:8080"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    volumes:
+      - ./express-app:/usr/src/app
+    command: bash -c "npm i && npm run dev"
+
+  react: 
+    image: node:latest
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react-app:/usr/src/app
+    command: bash -c "npm i && npm start"
+    depends_on:
+      - express
+
+  mongodb: 
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=stack
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
