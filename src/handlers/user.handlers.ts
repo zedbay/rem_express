@@ -7,12 +7,23 @@ export function listUser(req: any, res: any)  {
     });
 }
 
+export function login(req: any, res: any) {
+    const userRepository = new UserRepository();
+    userRepository
+        .find({ email: req.body.email, password: req.body.password })
+        .exec((err, result) => {
+            res.status(200).json({ result });
+        }
+    );
+}
+
 export async function createUser(req: any, res: any) {
     const user: IUserModel = await UserModel.createUser(req.body.email, req.body.password);
     res.status(201).json({ user });
 }
 
 export function updateUser(req: any, res: any) {
+    const userRepository = new UserRepository();
     res.status(200);
 }
 
