@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as config from '../config.json';
 import * as  mongoose from 'mongoose';
+import { UserRepository, UserModel } from './models/user';
 
 class App {
 
@@ -14,16 +15,28 @@ class App {
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
     this.mountRoutes();
+    this.startMongoDb();
   }
 
   private startMongoDb() {
-    mongoose.connect('mongodb://localhost:27017/stack', { useNewUrlParser: true });
+    mongoose.connect('mongodb://admin:secret@mongodb:27017/stack', 
+      { 
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      },
+      () => {
+        console.log('Connected to MongoDB');
+      }
+    );
   }
 
   private mountRoutes() {
     const router: Router = Router();
     router.get('/isAlive', (req, res) => {
       res.status(200).json({ isAlive: true });
+    });
+    router.get('/user', (req, res) => {
+      UserModel.createUser('test', 'a').then((test) => console.log(test));
     });
     this.express.use(router);
   }

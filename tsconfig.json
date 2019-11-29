@@ -8,7 +8,7 @@
     },
     "include": [
         "src/**/*.ts",
-        "json.d.ts"
+        "json.d.ts", "init-mongo.ts"
     ],
     "exclude": [
         "node_modules"
