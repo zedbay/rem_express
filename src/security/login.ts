@@ -38,6 +38,7 @@ export function getIdentity(req: any): Map<string, any> {
 
 export function checkJwt(req: any, res: any, next: NextFunction) {
   const token = <string>req.headers["authorization"];
+  console.log(token);
   try {
     <any>jwt.verify(token, secretKey);
   } catch (err) {
