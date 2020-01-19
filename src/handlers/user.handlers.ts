@@ -1,5 +1,4 @@
-import { UserRepository, IUserModel, UserModel } from "../models/user";
-import { getIdentity } from "../security/login";
+import { UserRepository, IUserModel } from "../models/user";
 
 export function listUser(req: any, res: any) {
   const userRepository = new UserRepository();
@@ -21,13 +20,20 @@ export function getUserById(req: any, res: any) {
 
 export async function createUser(req: any, res: any) {
   const userRepository = new UserRepository();
-  userRepository.create(<IUserModel>req.body, (err, user) => {
-    if (err) {
-      res.status(500).send();
+  userRepository.findUserByEmail(req.body.email).then((user) => {
+    if (user) {
+      res.status(500).json({ error: 'Email is already taken by user' });
     } else {
-      res.status(201).json({ user });
+      userRepository.create(<IUserModel>req.body, (err, user) => {
+        if (err) {
+          res.status(500).send();
+        } else {
+          res.status(201).json({ user });
+        }
+      });
     }
-  });
+  })
+
 }
 
 export function updateUser(req: any, res: any) {
