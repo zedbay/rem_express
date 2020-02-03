@@ -5,6 +5,8 @@ import * as cors from 'cors';
 import * as config from '../config.json';
 import * as  mongoose from 'mongoose';
 import { mountUserRoutes } from './routes/user-router';
+import { mountGroupRoutes } from './routes/groupe-router';
+import { mountProductRoutes } from './routes/product-router';
 
 class App {
 
@@ -36,6 +38,8 @@ class App {
       res.status(200).json({ isAlive: true });
     });
     mountUserRoutes(router);
+    mountGroupRoutes(router);
+    mountProductRoutes(router);
     this.express.use(router);
   }
 }

@@ -15,7 +15,7 @@ export interface IWrite<T> {
 
 export class Repository<T extends mongoose.Document> implements IRead<T>, IWrite<T> {
 
-  private _model: mongoose.Model<mongoose.Document>;
+  public _model: mongoose.Model<mongoose.Document>;
 
   constructor(schemaModel: mongoose.Model<mongoose.Document>) {
     this._model = schemaModel;

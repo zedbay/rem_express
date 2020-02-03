@@ -1,17 +1,20 @@
 import * as mongoose from 'mongoose';
 import { Repository } from './repository';
+var mongooseUniqueValidator = require('mongoose-unique-validator');
 
 export interface IUserModel extends mongoose.Document {
   email: string;
   password: string;
   name: string;
   firstName: string;
+  creationDate: Date;
 }
 
 const schema = new mongoose.Schema({
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -24,8 +27,13 @@ const schema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true
+  },
+  creationDate: {
+    type: Date,
+    required: true
   }
 });
+schema.plugin(mongooseUniqueValidator);
 
 export const UserSchema = mongoose.model<IUserModel>('user', schema, 'user', true);
 
@@ -47,6 +55,10 @@ export class UserRepository extends Repository<IUserModel> {
 
   public findUserByEmail(email: string) {
     return this.findOne({ email });
+  }
+
+  public findUsersByIds(ids: string[], callback: (err: any, res: any) => void) {
+    return this.find({ _id: { $in: ids } }, null, null, callback);
   }
 
 }

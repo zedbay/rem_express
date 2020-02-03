@@ -1,4 +1,5 @@
 import { UserRepository, IUserModel } from "../models/user";
+import { GroupRepository, IGroupModel } from "../models/group";
 
 export function listUser(req: any, res: any) {
   const userRepository = new UserRepository();
@@ -20,20 +21,27 @@ export function getUserById(req: any, res: any) {
 
 export async function createUser(req: any, res: any) {
   const userRepository = new UserRepository();
-  userRepository.findUserByEmail(req.body.email).then((user) => {
-    if (user) {
-      res.status(500).json({ error: 'Email is already taken by user' });
+  req.body.creationDate = new Date();
+  userRepository.create(<IUserModel>req.body, (err, user) => {
+    if (err) {
+      res.status(500).send();
     } else {
-      userRepository.create(<IUserModel>req.body, (err, user) => {
-        if (err) {
-          res.status(500).send();
-        } else {
-          res.status(201).json({ user });
-        }
-      });
+      const groupRepository = new GroupRepository();
+      groupRepository.addUserInMemberGroup(user._id.toString());
+      res.status(200).json({ user });
     }
-  })
+  });
+}
 
+export function getGroupForUser(req: any, res: any) {
+  const groupRepository = new GroupRepository();
+  groupRepository.findUserGroup(req.params.id, (err, groups) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      res.status(200).json({ groups });
+    }
+  });
 }
 
 export function updateUser(req: any, res: any) {
