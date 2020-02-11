@@ -1,6 +1,7 @@
 import { UserRepository, IUserModel } from "../models/user";
 import { NextFunction } from "connect";
 import * as jwt from 'jsonwebtoken';
+import { GroupRepository, IGroupModel } from "../models/group";
 
 const secretKey = "helloworld";
 
@@ -45,4 +46,19 @@ export function checkJwt(req: any, res: any, next: NextFunction) {
     return;
   }
   next();
+}
+
+export function isAdmin(req: any, res: any, next: NextFunction) {
+  const userClaims = getIdentity(req);
+  const groupRepository = new GroupRepository();
+  groupRepository.findUserGroup(userClaims.get('id'), (err, groups: IGroupModel[]) => {
+    const indexOfAdministratorGroup = groups.findIndex((group: IGroupModel) => {
+      return group.name === 'Administrator';
+    });
+    if (indexOfAdministratorGroup === -1) {
+      res.status(401).send();
+      return;
+    }
+    next();
+  });
 }

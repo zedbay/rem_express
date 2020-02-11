@@ -1,14 +1,28 @@
-import { checkJwt } from "../security/login";
-import { Router } from "express";
 import { createGroup, listGroup, deleteGroup, getMemberDetails, updateGroup, addMember, deleteUserInGroup, getGroupById } from "../handlers/group.handlers";
+import { RemRouter } from "./router";
 
-export function mountGroupRoutes(router: Router) {
-  router.post('/group', checkJwt, createGroup);
-  router.get('/group', checkJwt, listGroup);
-  router.delete('/group/:id', checkJwt, deleteGroup);
-  router.get('/group/:id/members', checkJwt, getMemberDetails);
-  router.put('/group/:id', checkJwt, updateGroup);
-  router.put('/group/:groupId/member/:userId', checkJwt, addMember);
-  router.delete('/group/:groupId/member/:userId', checkJwt, deleteUserInGroup);
-  router.get('/group/:id', checkJwt, getGroupById);
+class GroupRouter extends RemRouter {
+
+  public mountPublicRoutes() {
+
+  }
+
+  public mountPrivateRoutes() {
+
+  }
+
+  public mountAdministratorRoutes() {
+    this.router.post('/group', createGroup);
+    this.router.get('/group', listGroup);
+    this.router.delete('/group/:id', deleteGroup);
+    this.router.get('/group/:id/members', getMemberDetails);
+    this.router.put('/group/:id', updateGroup);
+    this.router.put('/group/:groupId/member/:userId', addMember);
+    this.router.delete('/group/:groupId/member/:userId', deleteUserInGroup);
+    this.router.get('/group/:id', getGroupById);
+  }
+
 }
+
+export default new GroupRouter().getRouter();
+

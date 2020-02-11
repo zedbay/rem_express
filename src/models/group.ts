@@ -23,16 +23,6 @@ schema.plugin(mongooseUniqueValidator);
 
 export const GroupSchema = mongoose.model<IGroupModel>('group', schema, 'group', true);
 
-export class UserModel {
-
-  private _groupModel: IGroupModel;
-
-  constructor(groupModel: IGroupModel) {
-    this._groupModel = groupModel;
-  }
-
-}
-
 export class GroupRepository extends Repository<IGroupModel> {
 
   constructor() {

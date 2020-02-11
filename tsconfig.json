@@ -1,16 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "outDir": "dist",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-    },
-    "include": [
-        "src/**/*.ts",
-        "json.d.ts", "init-mongo.ts"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "json.d.ts",
+    "init-mongo.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

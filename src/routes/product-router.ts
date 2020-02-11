@@ -1,9 +1,21 @@
-import { Router } from "express";
-import { checkJwt } from "../security/login";
 import { createProduct, listProduct, deleteProduct } from '../handlers/product.handler';
+import { RemRouter } from "./router";
 
-export function mountProductRoutes(router: Router) {
-  router.post('/product', checkJwt, createProduct);
-  router.get('/product', checkJwt, listProduct);
-  router.delete('/product/:id', checkJwt, deleteProduct);
+class ProductRouter extends RemRouter {
+
+  public mountPublicRoutes() {
+    this.router.get('/product', listProduct);
+  }
+
+  public mountPrivateRoutes() {
+
+  }
+
+  public mountAdministratorRoutes() {
+    this.router.post('/product', createProduct);
+    this.router.delete('/product/:id', deleteProduct);
+  }
+
 }
+
+export default new ProductRouter().getRouter();

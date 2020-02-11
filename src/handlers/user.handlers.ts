@@ -35,7 +35,7 @@ export async function createUser(req: any, res: any) {
 
 export function getGroupForUser(req: any, res: any) {
   const groupRepository = new GroupRepository();
-  groupRepository.findUserGroup(req.params.id, (err, groups) => {
+  groupRepository.findUserGroup(req.params.id, (err, groups: IGroupModel[]) => {
     if (err) {
       res.status(500).send();
     } else {

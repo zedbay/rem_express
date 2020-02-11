@@ -4,9 +4,9 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as config from '../config.json';
 import * as  mongoose from 'mongoose';
-import { mountUserRoutes } from './routes/user-router';
-import { mountGroupRoutes } from './routes/groupe-router';
-import { mountProductRoutes } from './routes/product-router';
+import UserRouter from './routes/user-router';
+import GroupRouter from './routes/groupe-router';
+import ProductRouter from './routes/product-router';
 
 class App {
 
@@ -21,7 +21,7 @@ class App {
   }
 
   private startMongoDb() {
-    mongoose.connect('mongodb://admin:secret@mongodb:27017/stack',
+    mongoose.connect(`mongodb://${config['mongoDb']['username']}:${config['mongoDb']['password']}@mongodb:27017/stack`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -33,14 +33,12 @@ class App {
   }
 
   private mountRoutes() {
-    const router: Router = Router();
-    router.get('/isAlive', (req, res) => {
+    this.express.get('/isAlive', (req, res) => {
       res.status(200).json({ isAlive: true });
     });
-    mountUserRoutes(router);
-    mountGroupRoutes(router);
-    mountProductRoutes(router);
-    this.express.use(router);
+    this.express.use(UserRouter);
+    this.express.use(GroupRouter);
+    this.express.use(ProductRouter);
   }
 }
 
