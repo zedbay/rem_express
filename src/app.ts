@@ -1,5 +1,4 @@
 import * as express from 'express';
-import { Router } from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as config from '../config.json';
@@ -17,7 +16,7 @@ class App {
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
     this.startMongoDb();
-    this.mountRoutes();
+    this.mountRouter();
   }
 
   private startMongoDb() {
@@ -32,7 +31,7 @@ class App {
     );
   }
 
-  private mountRoutes() {
+  public mountRouter() {
     this.express.get('/isAlive', (req, res) => {
       res.status(200).json({ isAlive: true });
     });
