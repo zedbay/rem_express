@@ -11,6 +11,17 @@ export function createProduct(req: any, res: any) {
   });
 }
 
+export function getProduct(req: any, res: any) {
+  const productRepository = new ProductRepository();
+  productRepository.findById(req.params.id, (err, product) => {
+    if (err) {
+      return res.status(500).send();
+    } else {
+      res.status(200).json(product);
+    }
+  })
+}
+
 export function deleteProduct(req: any, res: any) {
   const productRepository = new ProductRepository();
   productRepository.delete(req.params.id, (err) => {
