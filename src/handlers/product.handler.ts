@@ -11,6 +11,17 @@ export function createProduct(req: any, res: any) {
   });
 }
 
+export function updateProduct(req: any, res: any) {
+  const productRepository = new ProductRepository();
+  productRepository.update(req.params.id, <IProductModel>req.body, (err, product) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      res.status(200).json({ product });
+    }
+  })
+}
+
 export function getProduct(req: any, res: any) {
   const productRepository = new ProductRepository();
   productRepository.findById(req.params.id, (err, product) => {

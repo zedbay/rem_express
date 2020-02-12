@@ -46,7 +46,7 @@ export class Repository<T extends mongoose.Document> implements IRead<T>, IWrite
   }
 
   public update(_id: mongoose.Types.ObjectId, item: T, callback: (error: any, result: any) => void) {
-    this._model.update({ _id }, item, callback);
+    this._model.updateOne({ _id }, item, callback);
   }
 
   private toObjectId(_id: string): mongoose.Types.ObjectId {

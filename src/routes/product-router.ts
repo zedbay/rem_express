@@ -1,4 +1,4 @@
-import { createProduct, listProduct, deleteProduct, getProduct } from '../handlers/product.handler';
+import { createProduct, listProduct, deleteProduct, getProduct, updateProduct } from '../handlers/product.handler';
 import { RemRouter } from "./router";
 
 class ProductRouter extends RemRouter {
@@ -15,6 +15,7 @@ class ProductRouter extends RemRouter {
   public mountAdministratorRoutes() {
     this.router.post('/product', createProduct);
     this.router.delete('/product/:id', deleteProduct);
+    this.router.put('/product/:id', updateProduct);
   }
 
 }
