@@ -5,6 +5,7 @@ export interface IOrderModel extends mongoose.Document {
   ownerID: string;
   creationDate: string;
   status: number;
+  products: { productId: string, quantity: number, price: number }[];
   amount: number;
 }
 
@@ -24,6 +25,23 @@ const schema = new mongoose.Schema({
   },
   amount: {
     type: Number,
+    required: true
+  },
+  products: {
+    type: [{
+      productId: {
+        type: String,
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true
+      },
+      price: {
+        type: Number,
+        required: true
+      }
+    }],
     required: true
   }
 });

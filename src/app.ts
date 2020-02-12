@@ -6,6 +6,7 @@ import * as  mongoose from 'mongoose';
 import UserRouter from './routes/user-router';
 import GroupRouter from './routes/groupe-router';
 import ProductRouter from './routes/product-router';
+import OrderRouter from './routes/order-router';
 
 class App {
 
@@ -38,6 +39,7 @@ class App {
     this.express.use(UserRouter);
     this.express.use(GroupRouter);
     this.express.use(ProductRouter);
+    this.express.use(OrderRouter);
   }
 }
 
